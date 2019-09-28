@@ -39,6 +39,24 @@ Verification is implemented using the `EventTesting.IVerifier` interface and can
 
 The class `EventTesting.Called` provides a simplified interface for creating verifiers to build a more fluent API.
 
+## Argument Verification
+
+To test arguments passed to event handlers, verification actions can be registered e.g. to assert that the sender is not null:
+
+```cs
+using EventTesting;
+
+var obj = new TestObject();
+
+var hook = EventHook.For(obj)
+    .Hook((o, h) => o.OnTest += h);
+    .Verify((s, e) => Assert.NotNull(s))
+    .Build();
+
+obj.InvokeEvent();
+```
+Here we assert that the event sender is not null.
+
 ## Examples
 
 ### Minimum raise count
