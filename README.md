@@ -50,11 +50,37 @@ var obj = new TestObject();
 
 var hook = EventHook.For(obj)
     .Hook((o, h) => o.OnTest += h);
-    .Verify((s, e) => Assert.NotNull(s))
+    .Verify((s, e) => Assert.NotNull(s)) // assert
     .Build();
 
 obj.InvokeEvent();
 ```
+
+## Asnychronous Events
+
+Sometimes the event under test is raised asynchronously by another thread/process which may incur some delay. In this case it may be desirable to have some kind of timeout to give the service time to raise the event (e.g. when testing SignalR events). This can be achieved with the following:
+
+```cs
+using EventTesting;
+
+var obj = new TestObject();
+var hook = EventTesting.EventHook.For(obj)
+    .HookOnly((o, h) => o.OnTest += h);
+
+// raise asynchronously
+var t = Task.Run(() =>
+{
+    Task.Delay(TimeSpan.FromMilliseconds(500)).Wait();
+    o.InvokeEvent();
+});
+
+// Use extension method Within() to add a timeout
+hook.Verify(Called.Once().Within(TimeSpan.FromSeconds(1)));
+
+// join task
+t.Wait();
+```
+
 
 ## Examples
 
@@ -88,6 +114,3 @@ obj.InvokeEvent();
 
 hook.Verify(Called.AtMost(2));
 ```
-## Asnychronous Events
-
-TODO
