@@ -4,7 +4,7 @@ Writing test code for event-driven APIs in C# involves a lot of boiler plate cod
 
 # Installation
 
-![NuGet: EventTesting](https://img.shields.io/nuget/v/EventTesting?style=for-the-badge&logo=nuget)
+[![NuGet: EventTesting](https://img.shields.io/nuget/v/EventTesting?style=for-the-badge&logo=nuget)](https://www.nuget.org/packages/EventTesting/)
 
 # Instructions
 
