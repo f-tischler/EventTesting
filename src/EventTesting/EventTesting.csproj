@@ -2,6 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Florian Tischler</Authors>
+    <Description>.NET Standard library for cleaner C# event testing</Description>
+    <PackageProjectUrl>https://github.com/f-tischler/EventTesting</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Copyright>Florian Tischler</Copyright>
+    <PackageId>ftischler.EventTesting</PackageId>
   </PropertyGroup>
 
 </Project>
