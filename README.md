@@ -16,7 +16,7 @@ using EventTesting;
 var obj = new TestObject();
 
 var hook = EventHook.For(obj)
-    .HookOnly((o, m) => o.OnTest += m);
+    .HookOnly((o, h) => o.OnTest += h);
 ``` 
 
 To assert that the event has been raised, use `Verify`:
@@ -27,7 +27,7 @@ using EventTesting;
 var obj = new TestObject();
 
 var hook = EventHook.For(obj)
-    .HookOnly((obj, m) => obj.OnTest += m);
+    .HookOnly((o, h) => o.OnTest += h);
 
 obj.InvokeEvent();
 obj.InvokeEvent();
@@ -49,7 +49,7 @@ using EventTesting;
 var obj = new TestObject();
 
 var hook = EventHook.For(obj)
-    .HookOnly((obj, m) => obj.OnTest += m);
+    .HookOnly((o, h) => o.OnTest += h);
 
 obj.InvokeEvent();
 obj.InvokeEvent();
@@ -64,7 +64,7 @@ using EventTesting;
 var obj = new TestObject();
 
 var hook = EventHook.For(obj)
-    .HookOnly((obj, m) => obj.OnTest += m);
+    .HookOnly((o, h) => o.OnTest += h);
 
 obj.InvokeEvent();
 obj.InvokeEvent();
