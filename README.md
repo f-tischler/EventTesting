@@ -56,9 +56,9 @@ var hook = EventHook.For(obj)
 obj.InvokeEvent();
 ```
 
-## Asnychronous Events
+## Asynchronous Events
 
-Sometimes the event under test is raised asynchronously by another thread/process which may incur some delay. In this case it may be desirable to have some kind of timeout to give the service time to raise the event (e.g. when testing SignalR events). This can be achieved with the following:
+Sometimes the event under test is raised asynchronously by another thread/process which may involve some delay. In this case it may be desirable to have some kind of timeout to give the service time to raise the event (e.g. when testing SignalR events). This can be achieved with the following:
 
 ```cs
 using EventTesting;
@@ -80,7 +80,7 @@ hook.Verify(Called.Once().Within(TimeSpan.FromSeconds(1)));
 // join task
 t.Wait();
 ```
-### Argument verification for asynchronous Events
+### Argument Verification for asynchronous Events
 
 When verifying arguments of asynchronously raised events it is often useful to wait for the event to be raised to ensure that the verification action is executed. `WaitForCall` does just that:
 
