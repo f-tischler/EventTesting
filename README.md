@@ -55,7 +55,6 @@ var hook = EventHook.For(obj)
 
 obj.InvokeEvent();
 ```
-Here we assert that the event sender is not null.
 
 ## Examples
 
