@@ -71,7 +71,7 @@ var hook = EventTesting.EventHook.For(obj)
 var t = Task.Run(() =>
 {
     Task.Delay(TimeSpan.FromMilliseconds(500)).Wait();
-    o.InvokeEvent();
+    obj.InvokeEvent();
 });
 
 // Use extension method Within() to add a timeout
@@ -80,11 +80,35 @@ hook.Verify(Called.Once().Within(TimeSpan.FromSeconds(1)));
 // join task
 t.Wait();
 ```
+### Argument verification for asynchronous Events
 
+When verifying arguments of asynchronously raised events it is often useful to wait for the event to be raised to ensure that the verification action is executed. `WaitForCall` does just that:
+
+```cs
+using EventTesting;
+
+var obj = new TestObject();
+var hook = EventTesting.EventHook.For(obj)
+    .Hook((o, h) => o.OnTest += h)
+    .Verify((s, e) => Assert.NotNull(e)) // assert
+    .Build();
+
+// Trigger invocation inside EnsureCalled() to ensure that the invocation is picked up
+// EnsureCalled() will block until the event is raised at least once
+hook.EnsureCalled(() => 
+{
+    // trigger
+    Task.Run(() =>
+    {
+        Task.Delay(TimeSpan.FromMilliseconds(500)).Wait();
+        o.InvokeEvent();
+    });
+});
+```
 
 ## Examples
 
-### Minimum raise count
+### Minimum Raise Count
 
 ```cs
 using EventTesting;
@@ -99,7 +123,7 @@ obj.InvokeEvent();
 
 hook.Verify(Called.AtLeast(1));
 ```
-### Maximum raise count
+### Maximum Raise Count
 
 ```cs
 using EventTesting;
