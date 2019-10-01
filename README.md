@@ -1,4 +1,4 @@
-# Event Testing [![Build status](https://ci.appveyor.com/api/projects/status/0wckkllo1i5n8c49?svg=true)](https://ci.appveyor.com/project/f-tischler/eventtesting) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) 
+# Event Testing [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Build status](https://ci.appveyor.com/api/projects/status/0wckkllo1i5n8c49?svg=true)](https://ci.appveyor.com/project/f-tischler/eventtesting) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=f-tischler_EventTesting&metric=alert_status)](https://sonarcloud.io/dashboard?id=f-tischler_EventTesting)
 
 Writing test code for event-driven APIs in C# involves a lot of boiler plate code which obfuscates tests. This library intents to alleviate this problem by provding a fluent programming model for verifying event invocations and valdidating event arguments. It also supports use cases where events may be fired asynchonously with some delay by allowing to specify a timeout for the invocation verification.
 
