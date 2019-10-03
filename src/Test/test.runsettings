@@ -1,0 +1,6 @@
+<ModulePaths>              
+  <Exclude>                
+    <ModulePath>.*Moq.dll</ModulePath>
+    <ModulePath>.*GenFu.dll</ModulePath>                
+  </Exclude>
+</ModulePaths>
