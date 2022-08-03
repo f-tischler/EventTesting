@@ -12,6 +12,7 @@ namespace Test
         {
             public event EventHandler OnTest;
             public event EventHandler<bool> OnCustomArgsTest;
+            public event EventHandler<TestEventArgs> OnComplexCustomArgsTest;
 
             public void InvokeEvent()
             {
@@ -23,6 +24,22 @@ namespace Test
             {
                 Assert.IsNotNull(OnCustomArgsTest);
                 OnCustomArgsTest.Invoke(this, true);
+            }
+
+            public void InvokeComplexCustomArgEvent(TestEventArgs testEventArgs)
+            {
+                Assert.IsNotNull(OnComplexCustomArgsTest);
+                OnComplexCustomArgsTest.Invoke(this, testEventArgs);
+            }
+        }
+
+        private class TestEventArgs : EventArgs
+        {
+            public string Arg { get; }
+
+            public TestEventArgs(string arg)
+            {
+                Arg = arg;
             }
         }
 
@@ -70,6 +87,23 @@ namespace Test
             o.InvokeEvent();
 
             Assert.AreEqual(1, hook.Calls);
+        }
+
+        [TestMethod]
+        public void TestMultipleInvocationWithComplexCustomArgs()
+        {
+            var o = new TestObject();
+            var hook = EventTesting.EventHook.For(o)
+                .Hook<TestEventArgs>((obj, m) => obj.OnComplexCustomArgsTest += m)
+                .Build() as EventHook<TestObject, TestEventArgs>;
+
+            o.InvokeComplexCustomArgEvent(new TestEventArgs("event #99"));
+            o.InvokeComplexCustomArgEvent(new TestEventArgs("event #0"));
+
+            Assert.AreEqual(2, hook.Calls);
+            Assert.AreEqual(2, hook.CallsEventArgs.Count);
+            Assert.AreEqual("event #99", hook.CallsEventArgs[0].Arg);
+            Assert.AreEqual("event #0", hook.CallsEventArgs[1].Arg);
         }
 
         [TestMethod]

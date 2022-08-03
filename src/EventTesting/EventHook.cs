@@ -35,7 +35,7 @@ namespace EventTesting
                 await Task.Delay(TimeSpan.FromMilliseconds(50));
         }
 
-        public void Reset()
+        public virtual void Reset()
         {
             Calls = 0;
         }
@@ -46,8 +46,16 @@ namespace EventTesting
         }
     }
 
-    internal class EventHook<T, TEventArgs> : EventHook
+    public class EventHook<T, TEventArgs> : EventHook, IEventHook<T, TEventArgs>
     {
+        public List<TEventArgs> CallsEventArgs { get; protected set; } = new List<TEventArgs>();
+
+        public override void Reset()
+        {
+            CallsEventArgs.Clear();
+            base.Reset();
+        }
+
         internal void SetEventName(string eventName)
         {
             EventName = eventName;
@@ -61,6 +69,7 @@ namespace EventTesting
         internal void HandleEvent(object o, TEventArgs e)
         {
             ++Calls;
+            CallsEventArgs.Add(e);
 
             var i = 0;
 

@@ -1,6 +1,6 @@
 # Event Testing [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Build status](https://ci.appveyor.com/api/projects/status/0wckkllo1i5n8c49?svg=true)](https://ci.appveyor.com/project/f-tischler/eventtesting) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=f-tischler_EventTesting&metric=alert_status)](https://sonarcloud.io/dashboard?id=f-tischler_EventTesting)
 
-Writing test code for event-driven APIs in C# involves a lot of boiler plate code which obfuscates tests. This library intents to alleviate this problem by provding a fluent programming model for verifying event invocations and valdidating event arguments. It also supports use cases where events may be fired asynchonously with some delay by allowing to specify a timeout for the invocation verification.
+Writing test code for event-driven APIs in C# involves a lot of boiler plate code which obfuscates tests. This library intents to alleviate this problem by provding a fluent programming model for verifying event invocations and validating event arguments. It also supports use cases where events may be fired asynchonously with some delay by allowing to specify a timeout for the invocation verification.
 
 # Installation
 
@@ -38,6 +38,21 @@ hook.Verify(Called.Twice());
 Verification is implemented using the `EventTesting.IVerifier` interface and can be extended with custom verifiers. For the most common use cases there are implementations in the `EventTesting.Verifiers` namespace. 
 
 The class `EventTesting.Called` provides a simplified interface for creating verifiers to build a more fluent API.
+
+In case you have multiple events being fired winthin a call, a list of event arguments `EventHook<T, TEventArgs>.CallsEventArgs` is saved.
+
+```cs
+var hook = EventHook.For(obj)
+    .HookOnly<TestEventArgs>((o, h) => o.OnTest += h) as EventHook<TestObject, TestEventArgs>;
+    // or .Hook<TestEventArgs>((o, h) => o.OnTest += h).Build() as EventHook<TestObject, TestEventArgs>
+
+o.InvokeComplexCustomArgEvent(new TestEventArgs("event #99"));
+o.InvokeComplexCustomArgEvent(new TestEventArgs("event #0"));
+
+Assert.AreEqual(2, hook.CallsEventArgs.Count);
+Assert.AreEqual("event #99", hook.CallsEventArgs[0].Arg);
+Assert.AreEqual("event #0", hook.CallsEventArgs[1].Arg);
+```
 
 ## Argument Verification
 
