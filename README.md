@@ -39,7 +39,7 @@ Verification is implemented using the `EventTesting.IVerifier` interface and can
 
 The class `EventTesting.Called` provides a simplified interface for creating verifiers to build a more fluent API.
 
-In case you have multiple events being fired winthin a call, a list of event arguments `EventHook<T, TEventArgs>.CallsEventArgs` is saved.
+In case you have multiple events being fired within a call, a list of event arguments `EventHook<T, TEventArgs>.CallsEventArgs` is saved.
 
 ```cs
 var hook = EventHook.For(obj)
