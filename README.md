@@ -153,3 +153,18 @@ obj.InvokeEvent();
 
 hook.Verify(Called.AtMost(2));
 ```
+
+### Never Raised
+
+```cs
+using EventTesting;
+
+var obj = new TestObject();
+
+var hook = EventHook.For(obj)
+    .HookOnly((o, h) => o.OnTest += h);
+
+obj.DoNotInvokeEvent();
+
+hook.Verify(Called.Never());
+```
