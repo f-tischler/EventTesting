@@ -12,6 +12,11 @@ namespace EventTesting
             return new ExactVerifier(times);
         }
 
+        public static IVerifier Never()
+        {
+            return Exactly(0);
+        }
+
         public static IVerifier Once()
         {
             return Exactly(1);
